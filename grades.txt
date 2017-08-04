@@ -1,4 +1,4 @@
-@ $COURSE 1
+@ $COURSE 1$
 
 grade1
 grade2
@@ -6,7 +6,7 @@ grade3
 grade4
 grade5
 
-@ $COURSE 2
+@ $COURSE 2$
 
 grade1
 grade2
@@ -14,5 +14,5 @@ grade3
 grade4
 grade5
 
-@ $COURSE 3
-@ $COURSE 4
+@ $COURSE 3$
+@ $COURSE 4$

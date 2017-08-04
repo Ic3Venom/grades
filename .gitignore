@@ -45,3 +45,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/Course.class
+/client.class
+.classpath
+.project
+.pydevproject
+test.exe
+.vscode/launch.json
+exec.exe
+test.exe
