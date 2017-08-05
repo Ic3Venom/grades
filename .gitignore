@@ -54,3 +54,5 @@ test.exe
 .vscode/launch.json
 exec.exe
 test.exe
+/JavaApplication1/nbproject/private/
+.vscode/settings.json

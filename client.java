@@ -3,6 +3,7 @@
 */
 
 import java.util.Scanner;
+import java.io.*;
 
 public class client
 {
@@ -30,7 +31,7 @@ public class client
     			break;
     		case "check":
     		case "c":
-    			System.out.println("check!");
+    			showAllGrades();
     			break;
     		case "all":
     		case "a":
@@ -41,11 +42,104 @@ public class client
     			break;
 			default:
 				System.out.println("Unknown command \"" + userInput + "\". Try again.");
-    		}
-    	} while (!userInput.equals('q'));
+			}
+    	} while (!userInput.toLowerCase().equals("q") && !userInput.toLowerCase().equals("quit"));
     	
     	sc.close();
+    	
+    	
+    	
     	System.exit(0);
     }
+    
+    private static void showAllGrades()
+    {
+    	
+    	return;
+    }
+    
+    private static void help()
+    {
+    	
+    	
+    }
 
+    private static void change(Course c)
+    {
+    	try
+        {
+            //"fo" stands for FileOutput, "oo' stands for ObjectOutput
+            FileOutputStream foStream = new FileOutputStream(new File("fileOutput.txt"));
+            ObjectOutputStream ooStream = new ObjectOutputStream( foStream );
+
+            // Write object to file
+            ooStream.writeObject( c );
+
+            ooStream.close();
+            foStream.close();
+
+        }
+        catch (FileNotFoundException e) 
+        {
+            
+            System.out.println("File not found");
+                
+        } 
+        catch (IOException e) 
+        {
+            
+            System.out.println("Error initializing stream");
+        
+        }
+	}
+	
+	private static void read()
+	{
+		try
+		{
+			//"fi" stands for FileInput, "oi" stands for ObjectInput
+			FileInputStream fiStream = new FileInputStream(new File("fileOutput.txt"));
+			ObjectInputStream oiStream = new ObjectInputStream( fiStream );
+
+			while( fiStream.available() > 0 )
+			{
+					
+				Course buffer = (Course) oiStream.readObject();
+				System.out.println( buffer.toString() );
+				
+			}
+				
+			oiStream.close();
+			fiStream.close();
+		}
+		catch (FileNotFoundException e) 
+        {
+            
+            System.out.println("File not found");
+                
+        } 
+        catch (IOException e) 
+        {
+            
+            System.out.println("Error initializing stream");
+        
+        } 
+        catch (ClassNotFoundException e) {
+        
+            e.printStackTrace();
+
+        }
+	}
+    
+    private static void classExists()
+    {
+    	
+    }
+    
+    private static void categoryExists()
+    {
+    	
+    }
+    
 }
+
