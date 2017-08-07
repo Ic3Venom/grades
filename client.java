@@ -44,6 +44,7 @@ public class client
 		System.out.println(crs.toString() + "\n");
 		crs.readCategories();
 		
+		Course.write(crs);
     	System.out.println("Terminating program.");
     	System.exit(0);
     }

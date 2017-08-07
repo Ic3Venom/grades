@@ -11,15 +11,9 @@ public class Course implements Serializable
     {
     	this.name = name;
 		this.weighted = weighted;
-		
-		List<String> subCategory = new ArrayList<String>();
-		subCategory.add("WTF");
-		subCategory.add("Whyyy");
-		subCategory.add("TITLE");
-		categories.add(subCategory);
 	}
 
-    public static void writeCourse(Course c) throws IOException
+    public static void write(Course c) throws IOException
     {
 		//"fo" stands for FileOutput, "oo' stands for ObjectOutput
 		FileOutputStream foStream = new FileOutputStream(new File("fileOutput.txt"));
@@ -34,7 +28,6 @@ public class Course implements Serializable
 
 	public void readCategories()
 	{
-		
 		for(int i = 0; i < categories.size(); ++i)
 		{
 			List<String> subArray = categories.get(i);
@@ -65,12 +58,9 @@ public class Course implements Serializable
 		oiStream.close();
 		fiStream.close();
 
-	}
 
-	public void writeCategory(String catName) throws IOException
-	{
 	}
-
+	
 	public boolean categoryExists(String name)
 	{
 		return categories.indexOf(name) >= 0 ? true : false;
