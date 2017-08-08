@@ -5,7 +5,7 @@ public class Course implements Serializable
 {
 	private String name;
 	private boolean weighted;
-	private List<List<String>> categories = new ArrayList<List<String>>();
+	private HashMap<String, Object> categories = new HashMap<String, Object>();
 
     public Course(String name, boolean weighted)
     {
@@ -13,57 +13,72 @@ public class Course implements Serializable
 		this.weighted = weighted;
 	}
 
-    public static void write(Course c) throws IOException
+	public void add(String key)
+	{
+		categories.put(key, null);
+	}
+
+    public static void write(Course c)
     {
-		//"fo" stands for FileOutput, "oo' stands for ObjectOutput
-		FileOutputStream foStream = new FileOutputStream(new File("fileOutput.txt"));
-		ObjectOutputStream ooStream = new ObjectOutputStream( foStream );
+		try
+		{
+			//"fo" stands for FileOutput, "oo' stands for ObjectOutput
+			FileOutputStream foStream = new FileOutputStream(new File("fileOutput.txt"));
+			ObjectOutputStream ooStream = new ObjectOutputStream( foStream );
 
-		// Write object to file
-		ooStream.writeObject( c );
+			// Write object to file
+			ooStream.writeObject( c );
 
-		ooStream.close();
-		foStream.close();
+			ooStream.close();
+			foStream.close();
+		} 
+		catch (IOException e)
+		{
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
+		catch (Exception e) {
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
 	}
 
-	public void readCategories()
+	public static void readAll()
 	{
-		for(int i = 0; i < categories.size(); ++i)
-		{
-			List<String> subArray = categories.get(i);
 
-			for(int j = 0; j < subArray.size(); ++j)
+		try {
+		
+			//"fi" stands for FileInput, "oi" stands for ObjectInput
+			FileInputStream fiStream = new FileInputStream(new File("fileOutput.txt"));
+			ObjectInputStream oiStream = new ObjectInputStream( fiStream );
+
+			while( fiStream.available() > 0 )
 			{
-				System.out.print(subArray.get(j)+"  ");
-			}
-
-			System.out.println("");
-		}
-	}
-	public static void readCategory() throws IOException, ClassNotFoundException
-	{
-
-		//"fi" stands for FileInput, "oi" stands for ObjectInput
-		FileInputStream fiStream = new FileInputStream(new File("fileOutput.txt"));
-		ObjectInputStream oiStream = new ObjectInputStream( fiStream );
-
-		while( fiStream.available() > 0 )
-		{
+					
+				Course buffer = (Course) oiStream.readObject();
+				System.out.println( buffer.toString() );
 				
-			Course buffer = (Course) oiStream.readObject();
-			System.out.println( buffer.toString() );
-			
-		}
-			
-		oiStream.close();
-		fiStream.close();
-
-
-	}
+			}
+				
+			oiStream.close();
+			fiStream.close();
 	
-	public boolean categoryExists(String name)
-	{
-		return categories.indexOf(name) >= 0 ? true : false;
+			
+		} 
+		catch (IOException e)
+		{
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
+		catch (Exception e) {
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
 	}
 	
 	public String getName()

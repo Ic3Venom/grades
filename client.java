@@ -42,11 +42,12 @@ public class client
 		Course crs = new Course("CS38", true);
 		
 		System.out.println(crs.toString() + "\n");
-		crs.readCategories();
 		
 		Course.write(crs);
+		Course.readAll();
     	System.out.println("Terminating program.");
-    	System.exit(0);
+		System.exit(0);
+		
     }
     
     private static void help()
