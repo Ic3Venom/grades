@@ -2,7 +2,7 @@
     Created by Julian Meyn
 */
 
-import java.util.Scanner;
+import java.util.*;
 
 public class client
 {
@@ -38,18 +38,27 @@ public class client
 			}
     	} while (!userInput.toLowerCase().equals("q") && !userInput.toLowerCase().equals("quit"));
     	sc.close();
-    	
-		Course crs = new Course("CS38", true);
 		
-		System.out.println(crs.toString() + "\n");
+		ArrayList<Course> courses = new ArrayList<Course>();
+		courses.add(new Course("CS38", true));
 		
-		Course.write(crs);
-		Course.readAll();
-    	System.out.println("Terminating program.");
+		try
+		{
+			courses.get(0).addCategory("Tests", 50);
+			courses.get(0).add("Tests", "Test1", (double)100);
+			courses.get(0).write();
+			Course.readAll();
+		}
+		catch (Exception e)
+		{
+			System.out.print(e.getMessage());
+			System.exit(1);
+		}
+		System.out.println("Terminating program.");
 		System.exit(0);
-		
-    }
-    
+	
+	}
+
     private static void help()
     {
 		System.out.println("<grades help page>"
