@@ -31,7 +31,7 @@ public class client
     		case "a":
     			break;
     		case "q":
-    		case "quit":
+     		case "quit":
     			break;
 			default:
 				System.out.println("Unknown command \"" + userInput + "\". Try again.");
@@ -54,6 +54,7 @@ public class client
 			System.out.print(e.getMessage());
 			System.exit(1);
 		}
+
 		System.out.println("Terminating program.");
 		System.exit(0);
 	
