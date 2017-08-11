@@ -9,16 +9,19 @@ from difflib import get_close_matches
 
 class Course:
 
-    def __init__(self, name, weighted=True):
+    def __init__(self, name, weighted=False):
             self.categories = []
             self.name = name
             self.weighted = weighted
 
-    def addCategory(self, key, value={"Weight": 0}):
-        self.categories.update({key: value})
+    def addCategory(self, key, weight=None):
+        self.categories.append({key: {"Weight": weight}})
 
-    def addGrade(self, category, title, grade):
-        self.categories[category].update({title: grade})
+    def addGrade(self, category, title, score, maxScore):
+        percent = "{0:.2%}".format((score/maxScore))
+        self.categories.append(
+            {title: [score, maxScore, percent]}
+        )
 
     def findCategory(self, category):
         if category in self.categories:
@@ -45,8 +48,13 @@ class Course:
 
 
 def main():
-    crs = Course("CS38", False)
-
+    crs = Course("CS38")
+    crs.addCategory("Tests", 50)
+    crs.addGrade("Tests", "test1", 100, 100)
+    crs.addCategory("Quizzes", 20)
+    crs.addGrade("Quizzes", "popquiz1", 20, 22)
+    crs.addCategory("Homework", 10)
+    crs.addGrade("Homework", "assignment1", 10, 10)
     print(crs.__str__())
 
 
