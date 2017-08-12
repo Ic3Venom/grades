@@ -8,8 +8,6 @@ from difflib import get_close_matches
 
 
 class Course:
-    courses = []
-
     def __init__(self, name, weighted=False):
             self.categories = []
             self.name = name
@@ -24,34 +22,7 @@ class Course:
             {title: [score, maxScore, percent]}
         )
 
-    def findCourse(userInput):
-        courseNames = []
-
-        for course in Course.courses:
-            courseNames.append(course.name)
-
-        if userInput in [x.lower() for x in courseNames]:
-            for course in Course.courses:
-                if course.name.lower() is userInput.lower():
-                    return course
-        elif len(get_close_matches(userInput,
-                [x.lower() for x in courseNames])) > 0:
-
-            print("Unknown course {0}".format(userInput))
-            print("Did you mean to type one of these courses?")
-
-            for i, j in enumerate(
-                    get_close_matches(userInput, 
-                        [x.lower() for x in courseNames], 5)):
-                print("{0}: {1}".format(i+1, j))
-
-            return None
-        else:
-            print("The course name '{0}' does not exist. Try again"
-                  .format(userInput))
-            return None
-
-    def findCategory(userInput):
+    def findCategory(self, userInput):
         userInput = userInput.lower()
         keys = []
 
@@ -81,21 +52,27 @@ class Course:
                        "Categories: ", self.categories)
 
 
+def findCourse(courses, courseName):
+    for i in courses:
+        if i.name.lower() == courseName.lower():
+            return i
+    else:
+        return None
+
+
 def main():
-    Course.courses.append(Course("CS38"))
-    Course.courses[0].addCategory("Tests", 50)
-    Course.courses[0].addGrade("Tests", "test1", 100, 100)
-    Course.courses[0].addCategory("Quizzes", 20)
-    Course.courses[0].addGrade("Quizzes", "popquiz1", 20, 22)
-    Course.courses[0].addCategory("Homework", 10)
-    Course.courses[0].addGrade("Homework", "assignment1", 10, 10)
+    courses = []
 
-    validCategory = None
-    while validCategory is None:
-        print("What course do you want to know about?")
-        userInput = input(">>> ")
-        validCategory = Course.findCourse(userInput.lower())
+    crs = Course("CS38")
+    crs.addCategory("Tests", 50)
+    crs.addGrade("Tests", "test1", 100, 100)
+    crs.addCategory("Quizzes", 20)
+    crs.addGrade("Quizzes", "popquiz1", 20, 22)
+    crs.addCategory("Homework", 10)
+    crs.addGrade("Homework", "assignment1", 10, 10)
 
-    print(validCategory.__str__())
+    courses.append(crs)
+    print(findCourse(courses, "CS38").__str__())
+
 if __name__ == '__main__':
     main()
