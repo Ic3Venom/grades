@@ -14,18 +14,19 @@ class Course:
             self.weighted = weighted
 
     def addCategory(self, key, weight=None):
-        self.categories.append({key: {"Weight": weight}})
+        self.categories.append({key: [{"Weight": weight}]})
 
     def addGrade(self, category, title, score, maxScore):
         percent = "{0:.2%}".format((score/maxScore))
-        self.categories.append(
-            {title: [score, maxScore, percent]}
-        )
+        for i, j in enumerate(self.categories):
+            if str(list(j.keys())[0]).lower() == category.lower():
+                key = (i, list(j.keys())[0])
+
+        self.categories[key[0]][key[1]] += \
+            [{title: [score, maxScore, percent]}]
 
     def findCategory(self, userInput):
         userInput = userInput.lower()
-        keyList = []
-        keys = []
 
         for i in self.categories:
             keyList.append(list(i.keys())[0])
@@ -79,7 +80,6 @@ def main():
     crs.addGrade("Homework", "assignment1", 10, 10)
 
     print(findCourse(courses, "CS38"))
-    print(crs.findCategory("Tests"))
 
 if __name__ == '__main__':
     main()
