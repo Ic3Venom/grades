@@ -24,15 +24,21 @@ class Course:
 
     def findCategory(self, userInput):
         userInput = userInput.lower()
+        keyList = []
         keys = []
 
         for i in self.categories:
-            keys.append(i.lower())
+            keyList.append(list(i.keys())[0])
+        else:
+            for i in keyList:
+                keys.append(i)
 
-        if category in self.categories:
+        print("yo", keys)
+
+        if userInput in self.categories:
             return self.categories[category]
-        elif len(get_close_matches(userInput, self.categories.keys(), 5)) > 0:
-            print("Unknown category {0}".format(category))
+        elif len(get_close_matches(userInput, keys, 5)) > 0:
+            print("Unknown category {0}".format(userInput))
             print("Did you mean to type one of these categories?")
 
             for i, j in enumerate(
@@ -62,8 +68,9 @@ def findCourse(courses, courseName):
 
 def main():
     courses = []
+    courses.append(Course("CS38", True))
+    crs = courses[0]
 
-    crs = Course("CS38")
     crs.addCategory("Tests", 50)
     crs.addGrade("Tests", "test1", 100, 100)
     crs.addCategory("Quizzes", 20)
@@ -71,8 +78,8 @@ def main():
     crs.addCategory("Homework", 10)
     crs.addGrade("Homework", "assignment1", 10, 10)
 
-    courses.append(crs)
-    print(findCourse(courses, "CS38").__str__())
+    print(findCourse(courses, "CS38"))
+    print(crs.findCategory("Tests"))
 
 if __name__ == '__main__':
     main()
