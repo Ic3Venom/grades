@@ -17,38 +17,18 @@ class Course:
         self.categories.append({key: [{"Weight": weight}]})
 
     def addGrade(self, category, title, score, maxScore):
-        percent = "{0:.2%}".format((score/maxScore))
         for i, j in enumerate(self.categories):
             if str(list(j.keys())[0]).lower() == category.lower():
                 key = (i, list(j.keys())[0])
 
         self.categories[key[0]][key[1]] += \
-            [{title: [score, maxScore, percent]}]
+            [{title: [score, maxScore, "{:.2%}".format((score/maxScore))]}]
 
-    def findCategory(self, userInput):
-        userInput = userInput.lower()
-
+    def findCategory(self, category):
         for i in self.categories:
-            keyList.append(list(i.keys())[0])
+            if str(list(i.keys())[0]).lower() == category.lower():
+                return i
         else:
-            for i in keyList:
-                keys.append(i)
-
-        print("yo", keys)
-
-        if userInput in self.categories:
-            return self.categories[category]
-        elif len(get_close_matches(userInput, keys, 5)) > 0:
-            print("Unknown category {0}".format(userInput))
-            print("Did you mean to type one of these categories?")
-
-            for i, j in enumerate(
-                    get_close_matches(userInput, self.categories.keys(), 5)):
-                print("{0}: {1}".format(i+1, j))
-
-            return None
-        else:
-            print("The word '{0}' does not exist. Try again".format(userInput))
             return None
 
     def __str__(self):
@@ -80,6 +60,7 @@ def main():
     crs.addGrade("Homework", "assignment1", 10, 10)
 
     print(findCourse(courses, "CS38"))
+    print(crs.findCategory("Tests"))
 
 if __name__ == '__main__':
     main()
