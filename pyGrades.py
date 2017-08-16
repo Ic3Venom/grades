@@ -17,17 +17,15 @@ class Course:
         self.categories.append({key: [{"Weight": weight}]})
 
     def addGrade(self, category, title, score, maxScore):
-        for i, j in enumerate(self.categories):
-            if str(list(j.keys())[0]).lower() == category.lower():
-                key = (i, list(j.keys())[0])
+        key = self.findCategory(category)[1:]
 
         self.categories[key[0]][key[1]] += \
             [{title: [score, maxScore, "{:.2%}".format((score/maxScore))]}]
 
     def findCategory(self, category):
-        for i in self.categories:
-            if str(list(i.keys())[0]).lower() == category.lower():
-                return i
+        for i, j in enumerate(self.categories):
+            if str(list(j.keys())[0]).lower() == category.lower():
+                return [j, i, list(j.keys())[0]]
         else:
             return None
 
@@ -60,7 +58,7 @@ def main():
     crs.addGrade("Homework", "assignment1", 10, 10)
 
     print(findCourse(courses, "CS38"))
-    print(crs.findCategory("Tests"))
+    print(crs.findCategory("Tests")[0])
 
 if __name__ == '__main__':
     main()
