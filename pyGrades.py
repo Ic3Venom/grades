@@ -4,7 +4,23 @@
 
 import pandas
 import pickle
+from datetime import datetime
 from difflib import get_close_matches
+
+
+class Grade:
+    def __init__(self, title, score, maxScore, date, late=False):
+        self.title = title
+        self.score = score
+        self.maxScore = maxScore
+        self.percent = "{:.2%}".format(score/maxScore)
+        self.date = date
+        self.late = late
+
+    def __str__(self):
+        print("{} | {} | {} | {} | {}\n\n".format(
+            self.title, self.date, self.score,
+            self.maxScore, self.percent))
 
 
 class Course:
@@ -14,13 +30,11 @@ class Course:
             self.weighted = weighted
 
     def addCategory(self, key, weight=None):
-        self.categories.append({key: [{"Weight": weight}]})
+        self.categories.append({key: [(weight)]})
 
-    def addGrade(self, category, title, score, maxScore):
-        key = self.findCategory(category)[1:]
-
-        self.categories[key[0]][key[1]] += \
-            [{title: [score, maxScore, "{:.2%}".format((score/maxScore))]}]
+    def addGrade(self, c, t, s, m, d=datetime.now(), l=False):
+        key = self.findCategory(c)[1:]
+        self.categories[key[0]][key[1]] += [Grade(t, s, m, d, l)]
 
     def findCategory(self, category):
         for i, j in enumerate(self.categories):
@@ -28,6 +42,15 @@ class Course:
                 return [j, i, list(j.keys())[0]]
         else:
             return None
+
+    def findGrade(self, category, assignment):
+        pass
+
+    def isValid(self, category):
+        return NotImplementedError
+
+        if self.findCategory(category):
+            return NameError
 
     def __str__(self):
         return "{}{}\n{:>12}{}\n{:>12}{}\n{:>12}{}" \
@@ -51,14 +74,24 @@ def main():
     crs = courses[0]
 
     crs.addCategory("Tests", 50)
-    crs.addGrade("Tests", "test1", 100, 100)
+    crs.addGrade("Tests", "test1", 86, 100)
     crs.addCategory("Quizzes", 20)
     crs.addGrade("Quizzes", "popquiz1", 20, 22)
     crs.addCategory("Homework", 10)
     crs.addGrade("Homework", "assignment1", 10, 10)
+    crs.findGrade("Homework", "assignment1")
+    try:
+        crs.addGrade("Homework", "assignment1", 10, 10)
+        crs.isValid("Homework")
+    except NameError:
+        print("Assignment already exists")
 
     print(findCourse(courses, "CS38"))
     print(crs.findCategory("Tests")[0])
+    print("\n\n\n")
+    for i in crs.categories:
+        for j in i.keys():
+            print(i[j][1].__str__())
 
 if __name__ == '__main__':
     main()
