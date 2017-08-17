@@ -9,8 +9,8 @@ from difflib import get_close_matches
 
 
 class Grade:
-    def __init__(self, title, score, maxScore, date, late=False):
-        self.title = title
+    def __init__(self, name, score, maxScore, date, late=False):
+        self.name = name
         self.score = score
         self.maxScore = maxScore
         self.percent = "{:.2%}".format(score/maxScore)
@@ -18,9 +18,37 @@ class Grade:
         self.late = late
 
     def __str__(self):
-        print("{} | {} | {} | {} | {}\n\n".format(
-            self.title, self.date, self.score,
+        print("{} | {} | {} | {} | {}".format(
+            self.name, self.date, self.score,
             self.maxScore, self.percent))
+
+
+class Category:
+    def __init__(self, name, weight=None):
+        self.name = name
+        self.weight = weight
+        self.grades = []
+
+    def verify(self, name):
+        for i in self.grades:
+            if i.name.lower() == name.lower():
+                return False
+        else:
+            return True
+
+    def addGrade(self, name, score, m, d=datetime.now(), l=False):
+        if self.verify(name):
+            self.grades.append(Grade(name, score, m, d, l))
+
+    def delGrade(self, name):
+        for i in self.grades:
+            if i.name.lower() == name.lower():
+                self.grades.pop(i)
+
+    def __str__(self):
+        print("{} | {}".format(self.name, self.weight))
+        for i in self.grades:
+            print(i.__str__())
 
 
 class Course:
@@ -29,28 +57,35 @@ class Course:
             self.name = name
             self.weighted = weighted
 
-    def addCategory(self, key, weight=None):
-        self.categories.append({key: [(weight)]})
-
-    def addGrade(self, c, t, s, m, d=datetime.now(), l=False):
-        key = self.findCategory(c)[1:]
-        self.categories[key[0]][key[1]] += [Grade(t, s, m, d, l)]
-
-    def findCategory(self, category):
-        for i, j in enumerate(self.categories):
-            if str(list(j.keys())[0]).lower() == category.lower():
-                return [j, i, list(j.keys())[0]]
+    def getCategory(self, name):
+        print(self.categories)
+        for i in self.categories:
+            if i.name.lower() == name.lower():
+                return i
         else:
-            return None
+            print("Category {} does not exist".format(name))
+            # return NameError
 
-    def findGrade(self, category, assignment):
-        pass
+    def addCategory(self, name, weight=None):
+        if self.verify(name):
+            self.categories.append(Category(name, weight))
+        else:
+            print("Category {} already exists".format(name))
+            # return NameError
 
-    def isValid(self, category):
-        return NotImplementedError
+    def delCategory(self, name):
+        if self.valid(name):
+            self.categories.pop(i)
+        else:
+            print("Category {} does not exist".format(name))
+            # return NameError
 
-        if self.findCategory(category):
-            return NameError
+    def verify(self, name):
+        for i in self.categories:
+            if i.name.lower() == name.lower():
+                return False
+        else:
+            return True
 
     def __str__(self):
         return "{}{}\n{:>12}{}\n{:>12}{}\n{:>12}{}" \
@@ -60,12 +95,13 @@ class Course:
                        "Categories: ", self.categories)
 
 
-def findCourse(courses, courseName):
+def findCourse(courses, name):
     for i in courses:
-        if i.name.lower() == courseName.lower():
+        if i.name.lower() == name.lower():
             return i
     else:
-        return None
+        print("Course {} does not exist".format(name))
+        # return NameError
 
 
 def main():
@@ -74,24 +110,14 @@ def main():
     crs = courses[0]
 
     crs.addCategory("Tests", 50)
-    crs.addGrade("Tests", "test1", 86, 100)
+    crs.getCategory("Tests").addGrade("test1", 86, 100)
     crs.addCategory("Quizzes", 20)
-    crs.addGrade("Quizzes", "popquiz1", 20, 22)
+    crs.getCategory("Quizzes").addGrade("popquiz1", 20, 22)
     crs.addCategory("Homework", 10)
-    crs.addGrade("Homework", "assignment1", 10, 10)
-    crs.findGrade("Homework", "assignment1")
-    try:
-        crs.addGrade("Homework", "assignment1", 10, 10)
-        crs.isValid("Homework")
-    except NameError:
-        print("Assignment already exists")
+    crs.getCategory("Homework").addGrade("assignment1", 10, 10)
 
-    print(findCourse(courses, "CS38"))
-    print(crs.findCategory("Tests")[0])
-    print("\n\n\n")
     for i in crs.categories:
-        for j in i.keys():
-            print(i[j][1].__str__())
+        print(i.__str__())
 
 if __name__ == '__main__':
     main()
