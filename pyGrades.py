@@ -18,7 +18,7 @@ class Grade:
         self.late = late
 
     def __str__(self):
-        print("{} | {} | {} | {} | {}".format(
+        return("Name: {}; Score: {}; Max Score: {}; Date: {}; Late? {}".format(
             self.name, self.date, self.score,
             self.maxScore, self.percent))
 
@@ -46,9 +46,8 @@ class Category:
                 self.grades.pop(i)
 
     def __str__(self):
-        print("{} | {}".format(self.name, self.weight))
-        for i in self.grades:
-            print(i.__str__())
+        return ("Name: {}; Weight: {}% \n{}".format(
+            self.name, self.weight, [i.__str__() for i in self.grades]))
 
 
 class Course:
@@ -58,7 +57,6 @@ class Course:
             self.weighted = weighted
 
     def getCategory(self, name):
-        print(self.categories)
         for i in self.categories:
             if i.name.lower() == name.lower():
                 return i
@@ -88,11 +86,10 @@ class Course:
             return True
 
     def __str__(self):
-        return "{}{}\n{:>12}{}\n{:>12}{}\n{:>12}{}" \
+        return "{}{}\n{:>12}{}\n{:>12}{}\n" \
                .format(self.name, ".__str__(): ",  # remove this format later
                        "Name: ", self.name,
-                       "Weighted? ", self.weighted,
-                       "Categories: ", self.categories)
+                       "Weighted? ", self.weighted)
 
 
 def findCourse(courses, name):
