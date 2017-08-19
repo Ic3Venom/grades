@@ -17,10 +17,13 @@ class Grade:
         self.date = date
         self.late = late
 
+    # del/change/get methods removed: Category can just remove/recreate/search
+
     def __str__(self):
-        return("Name: {}; Score: {}; Max Score: {}; Date: {}; Late? {}".format(
-            self.name, self.date, self.score,
-            self.maxScore, self.percent))
+        return "Name: {}; Score: {}; Max Score: {}; "\
+            "Percent: {}; Date: {}; Late? {}".format(
+                self.name, self.score, self.maxScore,
+                self.percent, self.date, self.late)
 
 
 class Category:
