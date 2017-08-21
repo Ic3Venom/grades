@@ -3,7 +3,7 @@
 """
 
 import sys
-import _pickle as pickle
+import pickle
 from datetime import datetime
 # from difflib import get_close_matches
 
@@ -104,37 +104,54 @@ def findCourse(courses, name):
         # return NameError
 
 
+def clearFile():
+    with open("grades.bin", "w") as file:
+        file.write("")
+
+
 def read():
-    pass
+    with open("grades.bin", "rb") as file:
+        courses = pickle.load(file)
+
+    return courses
 
 
-def remove(course):
-    pass
+def rm(courses, courseName):
+    courses.pop(courseName)
 
 
-def write(course):
-    pickle.dump(course, open("grades.bin", "a"))
+def write(courses):
+    with open("grades.bin", "wb") as file:
+        pickle.dump(courses, file)
 
 
 def main():
-    courses = []
-
     # $1 Remove
-    courses.append(Course("CS38", True))
-    crs = courses[0]
-    crs.addCategory("Tests", 50)
-    crs.getCategory("Tests").addGrade("test1", 86, 100)
-    crs.addCategory("Quizzes", 20)
-    crs.getCategory("Quizzes").addGrade("popquiz1", 20, 22)
-    crs.addCategory("Homework", 10)
-    crs.getCategory("Homework").addGrade("assignment1", 10, 10)
+    crs1 = Course("CS38", True)
+    crs1.addCategory("Tests", 50)
+    crs1.getCategory("Tests").addGrade("test1", 86, 100)
+    crs1.addCategory("Quizzes", 20)
+    crs1.getCategory("Quizzes").addGrade("popquiz1", 20, 22)
+    crs1.addCategory("Homework", 10)
+    crs1.getCategory("Homework").addGrade("assignment1", 10, 10)
+
+    crs2 = Course("Algebra1", True)
+    crs2.addCategory("Tests", 50)
+    crs2.addCategory("Quizzes", 20)
+    crs2.addCategory("Homework", 10)
+    crs2.addCategory("Participation", 10)
+    crs2.addCategory("Projects", 10)
+    crs2.getCategory("Tests").addGrade("Chapter 1 Test", 120, 124)
+    crs2.getCategory("Tests").addGrade("Chapter 2 Test", 115, 124)
     # $1
 
-    for i in crs.categories:
-        print(i.__str__())
-
-    write(crs)
-    read()
+    write([crs1, crs2])
+    print(read())
+    courses = read()
+    for i in courses:
+        for j in i.categories:
+            print(j.__str__())
+    print("\n\n", courses)
 
 if __name__ == '__main__':
     main()
