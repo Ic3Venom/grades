@@ -33,8 +33,11 @@ class Category:
         self.grades = []
 
     def __str__(self):
-        return ("Name: {}; Weight: {}% \n{}".format(
-            self.name, self.weight, [i.__str__() for i in self.grades]))
+        gradeStr = ""
+        for i in self.grades:
+            gradeStr += i.__str__()
+        return "Name: {}; Weight: {}% ".format(
+            self.name, self.weight) + gradeStr
 
     def addGrade(self, name, score, m, d=datetime.now(), l=False):
         if self.verify(name):
@@ -87,12 +90,27 @@ class Course:
             print("Category {} does not exist".format(name))
             # return NameError
 
+    def getAllCategories(self):
+        names = []
+        for i in self.categories:
+            names.append(i.name)
+
+        return names
+
     def verify(self, name):
         for i in self.categories:
             if i.name.lower() == name.lower():
                 return False
         else:
             return True
+
+
+def getCourseName(courses):
+    names = []
+    for i in courses:
+        names.append(i.name)
+
+    return names
 
 
 def findCourse(courses, name):
