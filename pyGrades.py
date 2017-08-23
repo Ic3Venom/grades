@@ -71,11 +71,10 @@ class Course:
     def addCategory(self, name, weight=None):
         if self.verify(name):
             self.categories.append(Category(name, weight))
+            self.getTotalWeight()
         else:
             print("Category {} already exists".format(name))
             # return NameError
-
-        getTotalWeight()
 
     def delCategory(self, name):
         if self.valid(name):
@@ -85,25 +84,35 @@ class Course:
             # return NameError
 
     def changeWeight(self):
-        names = self.getAllCategories()
+        names = self.getAllNames()
 
         while(True):
             print("What category do you want to change the weight of?")
             userInput = input(">>> ")
 
-            if i.lower() == 'quit':
+            if userInput.lower() == 'quit':
                 sys.exit(0)
-            elif i in names:
-                while(True)
-                print("What would you like to change it to? (Currently at {})"
-                      .format(self.getCategory(i).weight))
-                userInput = input(">>> ")
+            elif userInput.lower() in [i.lower() for i in names]:
+                while(True):
+                    print("What would you like to change it to? (Now at {}%)"
+                          .format(self.getCategory(userInput).weight))
+                    newWeight = input(">>> ").rstrip("%")
 
+                    if newWeight == "quit":
+                        sys.exit(0)
+                    try:
+                        self.getCategory(userInput).weight = float(newWeight)
+                        return
+                    except ValueError:
+                        print("'{}' is not a valid input."
+                              " Try again or type 'quit'"
+                              .format(newWeight))
             elif len(get_close_matches(userInput, names, 1)) > 0:
-                print("Unknown category {}. Did you mean category {}?"
-                      .format(i, get_close_matches(userInput, names, 1)[0]))
+                print("Unknown category '{}'. Did you mean category '{}'?"
+                      .format(
+                        userInput, get_close_matches(userInput, names, 1)[0]))
 
-    def getAllCategories(self):
+    def getAllNames(self):
         names = []
         for i in self.categories:
             names.append(i.name)
@@ -124,8 +133,8 @@ class Course:
             weight += i.weight
 
         if weight > 100:
-            print("""This category's total weight exceeds 100%.", end=" "
-                Do you want to change the category's weights? (Y/N)""")
+            print("This category's total weight exceeds 100%.\
+                  \nDo you want to change the category's weights? (Y/N)")
             userInput = input(">>> ")
 
             if userInput.lower() in 'yes':  # Intentional: can enter 'ye'
@@ -196,7 +205,7 @@ def main():
     crs2.addCategory("Quizzes", 20)
     crs2.addCategory("Homework", 10)
     crs2.addCategory("Participation", 10)
-    crs2.addCategory("Projects", 10)
+    crs2.addCategory("Projects", 100)
     crs2.getCategory("Tests").addGrade("Chapter 1 Test", 120, 124)
     crs2.getCategory("Tests").addGrade("Chapter 2 Test", 115, 124)
     # $1
