@@ -5,7 +5,7 @@
 import sys
 import pickle
 from datetime import datetime
-# from difflib import get_close_matches
+from difflib import get_close_matches
 
 
 class Grade:
@@ -75,12 +75,40 @@ class Course:
             print("Category {} already exists".format(name))
             # return NameError
 
+        getTotalWeight()
+
     def delCategory(self, name):
         if self.valid(name):
             self.categories.pop(i)
         else:
             print("Category {} does not exist".format(name))
             # return NameError
+
+    def changeWeight(self):
+        names = self.getAllCategories()
+
+        while(True):
+            print("What category do you want to change the weight of?")
+            userInput = input(">>> ")
+
+            if i.lower() == 'quit':
+                sys.exit(0)
+            elif i in names:
+                while(True)
+                print("What would you like to change it to? (Currently at {})"
+                      .format(self.getCategory(i).weight))
+                userInput = input(">>> ")
+
+            elif len(get_close_matches(userInput, names, 1)) > 0:
+                print("Unknown category {}. Did you mean category {}?"
+                      .format(i, get_close_matches(userInput, names, 1)[0]))
+
+    def getAllCategories(self):
+        names = []
+        for i in self.categories:
+            names.append(i.name)
+
+        return names
 
     def getCategory(self, name):
         for i in self.categories:
@@ -90,12 +118,22 @@ class Course:
             print("Category {} does not exist".format(name))
             # return NameError
 
-    def getAllCategories(self):
-        names = []
+    def getTotalWeight(self):
+        weight = 0
         for i in self.categories:
-            names.append(i.name)
+            weight += i.weight
 
-        return names
+        if weight > 100:
+            print("""This category's total weight exceeds 100%.", end=" "
+                Do you want to change the category's weights? (Y/N)""")
+            userInput = input(">>> ")
+
+            if userInput.lower() in 'yes':  # Intentional: can enter 'ye'
+                self.changeWeight()
+            else:
+                print("Because you do not want to change this class's \
+                    category weights, you may not\nice your grade \
+                    percentage \ to change.")
 
     def verify(self, name):
         for i in self.categories:
@@ -164,12 +202,10 @@ def main():
     # $1
 
     write([crs1, crs2])
-    print(read())
     courses = read()
     for i in courses:
         for j in i.categories:
             print(j.__str__())
-    print("\n\n", courses)
 
 if __name__ == '__main__':
     main()
