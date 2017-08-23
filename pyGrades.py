@@ -2,10 +2,10 @@
     Python version of the Grades program
 """
 
-import sys
 import pickle
 from datetime import datetime
 from difflib import get_close_matches
+from os import system
 
 
 class Grade:
@@ -91,7 +91,8 @@ class Course:
             userInput = input(">>> ")
 
             if userInput.lower() == 'quit':
-                sys.exit(0)
+                system('pause')
+                exit(0)
             elif userInput.lower() in [i.lower() for i in names]:
                 while(True):
                     print("What would you like to change it to? (Now at {}%)"
@@ -99,7 +100,8 @@ class Course:
                     newWeight = input(">>> ").rstrip("%")
 
                     if newWeight == "quit":
-                        sys.exit(0)
+                        system('pause')
+                        exit(0)
                     try:
                         self.getCategory(userInput).weight = float(newWeight)
                         return
@@ -133,8 +135,9 @@ class Course:
             weight += i.weight
 
         if weight > 100:
-            print("This category's total weight exceeds 100%.\
-                  \nDo you want to change the category's weights? (Y/N)")
+            print("This category's total weight exceeds 100% ({}%).\
+                  \nDo you want to change the category's weights? (Y/N)"
+                  .format(weight))
             userInput = input(">>> ")
 
             if userInput.lower() in 'yes':  # Intentional: can enter 'ye'
