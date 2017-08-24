@@ -193,8 +193,20 @@ def write(courses):
         pickle.dump(courses, file)
 
 
+def getNum():
+    userInput = input(">>> ")
+
+    try:
+        float(userInput) + 1
+        return float(userInput)
+    except ValueError:
+        print("'{}' is not a valid input."
+              .format(userInput))
+        return None
+
+
 def main():
-    # $1 Remove
+    # $Debug
     crs1 = Course("CS38", True)
     crs1.addCategory("Tests", 50)
     crs1.getCategory("Tests").addGrade("test1", 86, 100)
@@ -208,16 +220,20 @@ def main():
     crs2.addCategory("Quizzes", 20)
     crs2.addCategory("Homework", 10)
     crs2.addCategory("Participation", 10)
-    crs2.addCategory("Projects", 100)
+    crs2.addCategory("Projects", 10)  # 100 instead of 10
     crs2.getCategory("Tests").addGrade("Chapter 1 Test", 120, 124)
     crs2.getCategory("Tests").addGrade("Chapter 2 Test", 115, 124)
-    # $1
 
     write([crs1, crs2])
     courses = read()
     for i in courses:
         for j in i.categories:
             print(j.__str__())
+
+    getNum()
+    getNum()
+
+    # $/Debug
 
 if __name__ == '__main__':
     main()
