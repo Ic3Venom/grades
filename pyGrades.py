@@ -193,7 +193,7 @@ def write(courses):
         pickle.dump(courses, file)
 
 
-def getNum():
+def getNum() -> float:
     userInput = input(">>> ")
 
     try:
@@ -206,7 +206,7 @@ def getNum():
 
 
 def main():
-    # $Debug
+    # $Debug"""
     crs1 = Course("CS38", True)
     crs1.addCategory("Tests", 50)
     crs1.getCategory("Tests").addGrade("test1", 86, 100)
@@ -229,11 +229,12 @@ def main():
     for i in courses:
         for j in i.categories:
             print(j.__str__())
-
-    getNum()
-    getNum()
-
     # $/Debug
+
+    while True:
+        print("What would you like to do? (Type 'help' for more info)")
+        userInput = input(">>> ")
+        break
 
 if __name__ == '__main__':
     main()
