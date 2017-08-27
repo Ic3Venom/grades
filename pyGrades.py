@@ -2,6 +2,7 @@
     Python version of the Grades program
 """
 
+import argparse
 import pickle
 from datetime import datetime
 from difflib import get_close_matches
@@ -205,8 +206,12 @@ def getNum() -> float:
         return None
 
 
+def createHelpPage():
+    parser = argparse.ArgumentParser()
+
+
 def main():
-    # $Debug"""
+    """Debug
     crs1 = Course("CS38", True)
     crs1.addCategory("Tests", 50)
     crs1.getCategory("Tests").addGrade("test1", 86, 100)
@@ -229,12 +234,24 @@ def main():
     for i in courses:
         for j in i.categories:
             print(j.__str__())
-    # $/Debug
+    """
+    createHelpPage()
 
     while True:
         print("What would you like to do? (Type 'help' for more info)")
         userInput = input(">>> ")
-        break
 
+        if userInput == "help":
+            break
+        elif userInput == "":
+            break
+        elif userInput == "":
+            break
+        elif userInput == "":
+            break
+        elif userInput == "":
+            break
+        elif userInput == "":
+            break
 if __name__ == '__main__':
     main()
