@@ -240,6 +240,8 @@ def main():
     createHelpPage()
 
     exit(0)
+
+    '''
     while True:
         print("What would you like to do? (Type 'help' for more info)")
         userInput = input(">>> ")
@@ -256,7 +258,8 @@ def main():
             break
         elif userInput == "":
             break
-        
-        break
+
+        break'''
+
 if __name__ == '__main__':
     main()
