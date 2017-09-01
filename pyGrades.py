@@ -2,6 +2,7 @@
     Python version of the Grades program
 """
 
+import argparse
 import pickle
 from datetime import datetime
 from difflib import get_close_matches
@@ -205,6 +206,13 @@ def getNum() -> float:
         return None
 
 
+def createHelpPage():
+    """testing"""
+
+    parser = argparse.ArgumentParser()
+    pearser.add_argument('')
+
+
 def main():
     """Debug
     crs1 = Course("CS38", True)
@@ -229,25 +237,32 @@ def main():
     for i in courses:
         for j in i.categories:
             print(j.__str__())
+    """
+    createHelpPage()
 
+    exit(0)
+
+    '''
     while True:
         print("What would you like to do? (Type 'help' for more info)")
         userInput = input(">>> ")
 
-        if userInput == "help":
+        if userInput.split(" ")[0] == "help":
             break
-        elif userInput == "":
+        elif userInput.split(" ")[0] == "get":
             break
-        elif userInput == "":
+        elif userInput.split(" ")[0] == "":
             break
-        elif userInput == "":
+        elif userInput.split(" ")[0] == "":
             break
-        elif userInput == "":
+        elif userInput.split(" ")[0] == "":
             break
-        elif userInput == "":
+        elif userInput.split(" ")[0] == "":
             break
+        else:
+            print("Unknown command '{}'. Try again.".format(userInput))
 
-        break"""
+        break'''
 
 if __name__ == '__main__':
     main()
