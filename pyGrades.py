@@ -251,13 +251,9 @@ def main():
             break
         elif userInput.split(" ")[0] == "get":
             break
-        elif userInput.split(" ")[0] == "":
+        elif userInput.split(" ")[0] == "find":
             break
-        elif userInput.split(" ")[0] == "":
-            break
-        elif userInput.split(" ")[0] == "":
-            break
-        elif userInput.split(" ")[0] == "":
+        elif userInput.split(" ")[0] == "show":
             break
         else:
             print("Unknown command '{}'. Try again.".format(userInput))
