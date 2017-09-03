@@ -194,18 +194,6 @@ def write(courses):
         pickle.dump(courses, file)
 
 
-def getNum() -> float:
-    userInput = input(">>> ")
-
-    try:
-        float(userInput) + 1
-        return float(userInput)
-    except ValueError:
-        print("'{}' is not a valid input."
-              .format(userInput))
-        return None
-
-
 def createHelpPage():
     """testing"""
 
