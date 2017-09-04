@@ -188,39 +188,35 @@ def write(courses):
         pickle.dump(courses, file)
 
 
-def createHelpPage():
-    """testing"""
-
-    parser = argparse.ArgumentParser()
-    pearser.add_argument('')
-
-
 def cleanCoursePrint(course) -> None:
     crs = """\
-          \nCourse Name: {0}\
-          \nWeighted Course? {1}\
-          \nCategories:\
-          """.format(course.name, course.weighted)
-    print(crs)
+Course Name: {0}
+Weighted Course? {1}
+Categories:
+"""
+    category = """\
+\tCategory name: {0}
+\tWeight: {1}%
+\tGrades:
+"""
+    grade = """\
+ \t   {0:<5}Grade name: {1}
+\t\tScore: {2}/{3}
+\t\tPercent: {4}
+\t\tAssigned: {5}
+\t\tLate? {6}\
+"""
+
+    print(crs.format(course.name, course.weighted))
 
     for i in course.categories:
-        category = """\
-                   \n\tCategory name: {0}\
-                   \n\tWeight: {1}%\
-                   \n\tGrades:\
-                   """.format(i.name, i.weight)
-        print(category)
+        print(category.format(i.name, i.weight))
 
         for n, j in enumerate(i.grades):
-            grade = """\
-                        \n \t   {0:<5}Grade name: {1}\
-                        \n\t\tScore: {2}/{3}\
-                        \n\t\tPercent: {4}\
-                        \n\t\tAssigned: {5}\
-                        \n\t\tLate? {6}\
-                    """.format(n+1, j.name, j.score, j.maxScore, j.score,
-                               j.date, j.late)
-            print(grade)
+            print(grade.format(n+1, j.name, j.score, j.maxScore, j.score,
+                               j.date, j.late))
+        else:
+            print("")  # Print newline after all grades in category are printed
 
 
 def main():
