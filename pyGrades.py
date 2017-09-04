@@ -2,7 +2,6 @@
     Python version of the Grades program
 """
 
-import argparse
 import pickle
 from datetime import datetime
 from difflib import get_close_matches
@@ -19,8 +18,7 @@ class Grade:
         self.late = late
 
     def __str__(self):
-        return "Name: {}; Score: {}; Max Score: {}; " \
-            "Percent: {}; Date: {}; Late? {}".format(
+        return "{} {} {} {} {} {}".format(
                 self.name, self.score, self.maxScore,
                 self.percent, self.date, self.late)
 
@@ -37,7 +35,7 @@ class Category:
         gradeStr = ""
         for i in self.grades:
             gradeStr += i.__str__()
-        return "Name: {}; Weight: {}% ".format(
+        return "{} {}".format(
             self.name, self.weight) + gradeStr
 
     def addGrade(self, name, score, m, d=datetime.now(), l=False):
@@ -64,10 +62,7 @@ class Course:
             self.weighted = weighted
 
     def __str__(self):
-        return "{}{}\n{:>12}{}\n{:>12}{}\n" \
-               .format(self.name, ".__str__(): ",  # remove this format later
-                       "Name: ", self.name,
-                       "Weighted? ", self.weighted)
+        return "{} {}".format(self.name, self.weighted)
 
     def addCategory(self, name, weight=None):
         if self.verify(name):
@@ -169,8 +164,7 @@ def findCourse(courses, name):
         if i.name.lower() == name.lower():
             return i
     else:
-        print("Course '{}' does not exist".format(name))
-        # return NameError
+        return NameError
 
 
 def clearFile():
@@ -201,8 +195,35 @@ def createHelpPage():
     pearser.add_argument('')
 
 
+def cleanCoursePrint(course) -> None:
+    crs = """\
+          \nCourse Name: {0}\
+          \nWeighted Course? {1}\
+          \nCategories:\
+          """.format(course.name, course.weighted)
+    print(crs)
+
+    for i in course.categories:
+        category = """\
+                   \n\tCategory name: {0}\
+                   \n\tWeight: {1}%\
+                   \n\tGrades:\
+                   """.format(i.name, i.weight)
+        print(category)
+
+        for n, j in enumerate(i.grades):
+            grade = """\
+                        \n \t   {0:<5}Grade name: {1}\
+                        \n\t\tScore: {2}/{3}\
+                        \n\t\tPercent: {4}\
+                        \n\t\tAssigned: {5}\
+                        \n\t\tLate? {6}\
+                    """.format(n+1, j.name, j.score, j.maxScore, j.score,
+                               j.date, j.late)
+            print(grade)
+
+
 def main():
-    """Debug
     crs1 = Course("CS38", True)
     crs1.addCategory("Tests", 50)
     crs1.getCategory("Tests").addGrade("test1", 86, 100)
@@ -222,11 +243,9 @@ def main():
 
     write([crs1, crs2])
     courses = read()
-    for i in courses:
-        for j in i.categories:
-            print(j.__str__())
-    """
-    createHelpPage()
+
+    cleanCoursePrint(crs1)
+    cleanCoursePrint(crs2)
 
     exit(0)
 
@@ -234,14 +253,26 @@ def main():
     while True:
         print("What would you like to do? (Type 'help' for more info)")
         userInput = input(">>> ")
+        parse = userInput.split(" ")
 
-        if userInput.split(" ")[0] == "help":
+        if parse[0] == "help":
             break
-        elif userInput.split(" ")[0] == "get":
+        elif parse[0] == "get":
+
             break
-        elif userInput.split(" ")[0] == "find":
+        elif parse[0] == "find":
+            try:
+                if findCategory(parse[1]):
+                    print( findCategory(parse[1]).__str__() )
+                    break
+                else:
+                    print("You did not supply a category.")
+            except NameError:
+                print("Category {} does not exist.".format(parse[1]))
+        elif parse[0] == "show":
             break
-        elif userInput.split(" ")[0] == "show":
+        elif parse[0] == "new":
+            print("New )
             break
         else:
             print("Unknown command '{}'. Try again.".format(userInput))
