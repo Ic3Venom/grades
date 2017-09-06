@@ -32,11 +32,7 @@ class Category:
         self.grades = []
 
     def __str__(self):
-        gradeStr = ""
-        for i in self.grades:
-            gradeStr += i.__str__()
-        return "{} {}".format(
-            self.name, self.weight) + gradeStr
+        return "{} {}".format(self.name, self.weight)
 
     def addGrade(self, name, score, m, d=datetime.now(), l=False):
         if self.verify(name):
