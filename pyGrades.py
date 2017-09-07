@@ -223,6 +223,8 @@ def main():
     crs1.getCategory("Quizzes").addGrade("popquiz1", 20, 22)
     crs1.addCategory("Homework", 10)
     crs1.getCategory("Homework").addGrade("assignment1", 10, 10)
+    crs1.getCategory("Homework").addGrade("assignment2", 20, 20)
+    crs1.getCategory("Homework").addGrade("assignment3", 20, 20)
 
     crs2 = Course("Algebra1", True)
     crs2.addCategory("Tests", 50)
