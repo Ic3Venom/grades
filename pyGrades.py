@@ -250,7 +250,9 @@ def main():
         parse = userInput.split(" ")
 
         if parse[0] == "help":
-            break
+            print("Welcome to the grades.py help page!",\
+                  "Here is the list of available commands: ",
+                  "") #TODO: add all commands
         elif parse[0] == "get":
 
             break
